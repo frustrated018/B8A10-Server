@@ -27,6 +27,35 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
+    const productCollection = client
+      .db("clothingCoveDB")
+      .collection("products");
+    const brandsCollection = client.db("clothingCoveDB").collection("brands");
+
+    // brands route
+
+    app.get("/brands", async (req, res) => {
+      const cursor = brandsCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // Products route
+
+    app.get("/products", async (req, res) => {
+      const cursor = productCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    app.post("/products", async (req, res) => {
+      const newProduct = req.body;
+      const result = await productCollection.insertOne(newProduct);
+      console.log(result);
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
