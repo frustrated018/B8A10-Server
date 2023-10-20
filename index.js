@@ -60,8 +60,8 @@ async function run() {
 
     app.get("/products/:brandName", async (req, res) => {
       const brandName = req.params.brandName;
-      const query = { brandName: brandName };
-      const cursor = productCollection.find();
+      const query = { brandName: brandName }; 
+      const cursor = productCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
     });
@@ -70,7 +70,7 @@ async function run() {
 
 
 
-    
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
