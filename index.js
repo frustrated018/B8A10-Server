@@ -48,13 +48,29 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
-
+    // adding products to database
     app.post("/products", async (req, res) => {
       const newProduct = req.body;
       const result = await productCollection.insertOne(newProduct);
       console.log(result);
       res.send(result);
     });
+
+    // finding products by brand name
+
+    app.get("/products/:brandName", async (req, res) => {
+      const brandName = req.params.brandName;
+      const query = { brandName: brandName };
+      const cursor = productCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+
+
+
+
+    
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
