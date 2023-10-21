@@ -50,6 +50,16 @@ async function run() {
       res.send(result);
     });
 
+    // finding products in the cart by email
+
+    app.get("/cart/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      const cursor = cartCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     // Deleting for cart
     app.delete("/cart/:id", async (req, res) => {
       const id = req.params.id;
